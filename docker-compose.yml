@@ -21,4 +21,4 @@ services:
       - TZ=Asia/Tokyo
     volumes:
       - ./web:/var/golang/web
-      - ./go.mod:/var/golang/web/go.mod
+      - ./web/go.mod:/var/golang/web/go.mod

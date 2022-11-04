@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go_login/web/logging"
+	"go_login/logging"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
