@@ -10,6 +10,45 @@ import (
 
 var logger *log.Logger
 
+const (
+	DEBUG    = 0
+	INFO     = 10
+	WARN     = 20
+	ERROR    = 30
+	CRITICAL = 40
+)
+
+type Logger struct {
+	log.Logger
+	LogLevel int8
+}
+
+func (l *Logger) Debug(msg ...any) {
+	l.logMsg(DEBUG, "DEBUG", msg...)
+}
+
+func (l *Logger) Info(msg ...any) {
+	l.logMsg(INFO, "INFO", msg...)
+}
+
+func (l *Logger) Warn(msg ...any) {
+	l.logMsg(WARN, "WARN", msg...)
+}
+
+func (l *Logger) Error(msg ...any) {
+	l.logMsg(ERROR, "ERROR", msg...)
+}
+
+func (l *Logger) logMsg(levelNum int8, level string, msg ...any) {
+	tmpMsg := fmt.Sprintf("%v: %v", level, msg)
+	if levelNum >= l.LogLevel {
+		l.Println(tmpMsg)
+	}
+
+}
+
+
+
 func SetLogger() *os.File {
 	// date format
 	const layout = "2006-01-02"
