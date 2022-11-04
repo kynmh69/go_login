@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var logger *log.Logger
+var logger *Logger
 
 const (
 	DEBUG    = 0
@@ -47,6 +47,10 @@ func (l *Logger) logMsg(levelNum int8, level string, msg ...any) {
 
 }
 
+func New(w io.Writer, prefix string, flag int) *Logger {
+	return &Logger{}
+}
+
 func SetLogger() *os.File {
 	// date format
 	const layout = "2006-01-02"
@@ -68,7 +72,7 @@ func SetLogger() *os.File {
 	// file and stdout
 	multiWriter := io.MultiWriter(os.Stdout, file)
 
-	logger = log.New(multiWriter, "web app | ", log.Ldate|log.Ltime|log.Lshortfile|log.Lmsgprefix)
+	logger = New(multiWriter, "web app | ", log.Ldate|log.Ltime|log.Lshortfile|log.Lmsgprefix)
 	// set writer.
 	logger.SetOutput(multiWriter)
 	// output test log.
@@ -76,6 +80,6 @@ func SetLogger() *os.File {
 	return file
 }
 
-func GetLogger() *log.Logger {
+func GetLogger() *Logger {
 	return logger
 }
