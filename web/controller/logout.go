@@ -1,11 +1,13 @@
 package controller
 
 import (
+	"go_login/web/logging"
 	"html/template"
 	"net/http"
 )
 
-func logoutHandler(w http.ResponseWriter, r *http.Request) {
+func LogoutHandler(w http.ResponseWriter, r *http.Request) {
+	logger := logging.GetLogger()
 	htmlFilePath := "template/logout.html"
 	logger.Println("load html", htmlFilePath)
 	t, err := template.ParseFiles(htmlFilePath)

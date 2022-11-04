@@ -38,3 +38,7 @@ func SetLogger() *os.File {
 	logger.Println("set logger !!")
 	return file
 }
+
+func GetLogger() *log.Logger {
+	return logger
+}
