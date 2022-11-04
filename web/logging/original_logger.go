@@ -40,7 +40,11 @@ func (l *Logger) Error(msg ...any) {
 }
 
 func (l *Logger) logMsg(levelNum int8, level string, msg ...any) {
-	tmpMsg := fmt.Sprintf("%v: %v", level, msg)
+	var tmpMsg string
+	for _, v := range msg {
+		tmpMsg += fmt.Sprintf("%v ", v)
+	}
+	tmpMsg = fmt.Sprintf("%v: %v", level, tmpMsg)
 	if levelNum >= l.LogLevel {
 		l.Println(tmpMsg)
 	}
@@ -69,8 +73,6 @@ func SetLogger() *os.File {
 	multiWriter := io.MultiWriter(os.Stdout, file)
 
 	logger = New(multiWriter, "web app | ", log.Ldate|log.Ltime|log.Lshortfile|log.Lmsgprefix)
-	// output test log.
-	logger.Debug("set logger !!")
 	return file
 }
 
