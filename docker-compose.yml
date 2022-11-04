@@ -10,6 +10,8 @@ services:
     ports:
       - 3306:3306
   web:
-    image: golang:latest
+    build:
+      context: .
+      dockerfile: ./docker/web
     ports:
-      - 8080:8080
+      - 8000:8000
