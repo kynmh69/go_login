@@ -47,8 +47,6 @@ func (l *Logger) logMsg(levelNum int8, level string, msg ...any) {
 
 }
 
-
-
 func SetLogger() *os.File {
 	// date format
 	const layout = "2006-01-02"
