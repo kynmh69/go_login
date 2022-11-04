@@ -1,5 +1,25 @@
 package main
 
-func main() {
+import (
+	"html/template"
+	"log"
+	"net/http"
+)
 
+func mainHandler(w http.ResponseWriter, r *http.Request) {
+	htmlFilePath := "./src/template/login.html"
+	log.Println("load html", htmlFilePath)
+	t, err := template.ParseFiles(htmlFilePath)
+	if err != nil {
+		log.Fatalln("error", err)
+	}
+	if err := t.Execute(w, nil); err != nil {
+		log.Fatalln("error", err)
+	}
+}
+
+func main() {
+	log.Println("start serve.")
+	http.HandleFunc("/login", mainHandler)
+	http.ListenAndServe(":8000", nil)
 }
