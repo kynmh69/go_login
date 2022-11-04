@@ -1,0 +1,16 @@
+services:
+  db:
+    image: mysql:latest
+    volumes:
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./mysql:/var/lib/mysql
+    restart: on-failure
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3306:3306
+  web:
+    image: golang:latest
+    volumes:
+      - ./src:/var/golang/src
+      - ./main.go:/var/golang/
