@@ -7,7 +7,7 @@ import (
 )
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
-	htmlFilePath := "src/template/login.html"
+	htmlFilePath := "template/login.html"
 	log.Println("load html", htmlFilePath)
 	t, err := template.ParseFiles(htmlFilePath)
 	if err != nil {
@@ -19,7 +19,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func logoutHandler(w http.ResponseWriter, r *http.Request) {
-	htmlFilePath := "src/template/logout.html"
+	htmlFilePath := "template/logout.html"
 	log.Println("load html", htmlFilePath)
 	t, err := template.ParseFiles(htmlFilePath)
 	if err != nil {
