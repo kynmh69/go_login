@@ -9,7 +9,7 @@ import (
 func main() {
 	file := logging.SetLogger()
 	logger := logging.GetLogger()
-	logger.Println("start serve.")
+	logger.Debug("start serve.")
 	http.HandleFunc("/login", controller.LoginHandler)
 	http.HandleFunc("/logout", controller.LogoutHandler)
 	http.ListenAndServe(":8000", nil)

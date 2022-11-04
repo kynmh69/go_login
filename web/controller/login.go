@@ -9,7 +9,7 @@ import (
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	logger := logging.GetLogger()
 	htmlFilePath := "template/login.html"
-	logger.Println("load html", htmlFilePath)
+	logger.Info("load html", htmlFilePath)
 	t, err := template.ParseFiles(htmlFilePath)
 	if err != nil {
 		logger.Fatalln("error", err)

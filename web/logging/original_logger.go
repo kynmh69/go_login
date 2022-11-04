@@ -48,38 +48,55 @@ func (l *Logger) logMsg(levelNum int8, level string, msg ...any) {
 }
 
 func New(w io.Writer, prefix string, flag int) *Logger {
-	return &Logger{}
+	logger := &Logger{}
+	logger.SetOutput(w)
+	logger.SetPrefix(prefix)
+	logger.SetFlags(flag)
+	return logger
 }
 
 func SetLogger() *os.File {
 	// date format
-	const layout = "2006-01-02"
-	dateNow := time.Now()
-	dayFormated := dateNow.Format(layout)
+	dayFormated := getDate()
 	// create file name.
-	logFileName := "golang_" + dayFormated + ".log"
-	logFilePath := "log/" + logFileName
-
-	fmt.Println("open log file.")
+	logFilePath := createLogFilePath(dayFormated)
 
 	// open file.
-	file, err := os.OpenFile(logFilePath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
-	if err != nil {
-		fmt.Println("file open error.", err)
-	}
+	file := openLogFile(logFilePath)
 
 	// create multi writer.
 	// file and stdout
 	multiWriter := io.MultiWriter(os.Stdout, file)
 
 	logger = New(multiWriter, "web app | ", log.Ldate|log.Ltime|log.Lshortfile|log.Lmsgprefix)
-	// set writer.
-	logger.SetOutput(multiWriter)
 	// output test log.
-	logger.Println("set logger !!")
+	logger.Debug("set logger !!")
 	return file
 }
 
 func GetLogger() *Logger {
 	return logger
+}
+
+func createLogFilePath(date string) string {
+	// create file name.
+	logFileName := "golang_" + date + ".log"
+	logFilePath := "log/" + logFileName
+	return logFilePath
+}
+
+func getDate() string {
+	// date format
+	const layout = "2006-01-02"
+	dateNow := time.Now()
+	dayFormated := dateNow.Format(layout)
+	return dayFormated
+}
+
+func openLogFile(filePath string) *os.File {
+	file, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
+	if err != nil {
+		fmt.Println("file open error.", err)
+	}
+	return file
 }
