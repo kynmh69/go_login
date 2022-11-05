@@ -22,10 +22,10 @@ func postSignUp(ctx *gin.Context) {
 
 	user, err := model.SignUp(id, pw)
 	if err != nil {
-		ctx.Redirect(301, "/login")
+		ctx.Redirect(http.StatusFound, "/signup")
 		return
 	}
-	ctx.HTML(http.StatusOK, "home.html", gin.H{"user": user})
+	ctx.Redirect(http.StatusFound, "/login")
 }
 
 func getLogin(ctx *gin.Context) {
