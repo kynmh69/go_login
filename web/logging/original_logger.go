@@ -51,6 +51,19 @@ func (l *Logger) logMsg(levelNum int8, level string, msg ...any) {
 
 }
 
+func (l *Logger) SetLogLevel(logLevel string) {
+	switch logLevel {
+	case "DEBUG":
+		l.LogLevel = DEBUG
+	case "INFO":
+		l.LogLevel = INFO
+	case "WARN":
+		l.LogLevel = WARN
+	case "ERROR":
+		l.LogLevel = ERROR
+	}
+}
+
 func New(w io.Writer, prefix string, flag int) *Logger {
 	logger := &Logger{}
 	logger.SetOutput(w)

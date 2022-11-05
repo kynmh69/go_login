@@ -10,10 +10,13 @@ import (
 func main() {
 	file := logging.SetLogger()
 	logger := logging.GetLogger()
-	logger.LogLevel = logging.DEBUG
+	logger.LogLevel = logging.INFO
 	logger.Info("start serve.")
 
 	utils.LoadEnv()
+
+	logLevel := os.Getenv("APP_LOG_LEVEL")
+	logger.SetLogLevel(logLevel)
 
 	r := controller.GetRouter()
 	port := os.Getenv("HTTP_PORT")
