@@ -24,18 +24,17 @@ func GetRouter() *gin.Engine {
 			nil,
 		)
 	})
-	r.GET("signup", func(ctx *gin.Context) {
+	r.GET("/signup", func(ctx *gin.Context) {
 		ctx.HTML(
 			http.StatusOK,
-			"siginup.html",
+			"signup.html",
 			nil,
 		)
 	})
-	r.POST("signup", func(ctx *gin.Context) {
-		ctx.HTML(
-			http.StatusCreated,
-			"login.html",
-			nil,
+	r.POST("/signup", func(ctx *gin.Context) {
+		ctx.Redirect(
+			http.StatusFound,
+			"login",
 		)
 	})
 	return r
