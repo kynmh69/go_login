@@ -22,9 +22,9 @@
     <div class="box">
         <form action="./signup" method="post">
             <div class="field">
-                <label class="label">Username</label>
+                <label class="label">User ID</label>
                 <div class="control has-icons-left has-icons-right">
-                    <input class="input" type="text" placeholder="Text input">
+                    <input class="input" type="text" name="user_id" placeholder="Text input" required>
                     <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                     </span>
@@ -37,7 +37,7 @@
             <div class="field">
                 <label class="label">Password</label>
                 <div class="control has-icons-left has-icons-right">
-                    <input class="input" type="password" placeholder="Password input">
+                    <input class="input" type="password" name="password" placeholder="Password input" required>
                     <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
                     </span>
@@ -50,7 +50,7 @@
             <div class="field">
                 <label class="label">Re enter Password</label>
                 <div class="control has-icons-left has-icons-right">
-                    <input class="input" type="password" placeholder="Re Password input">
+                    <input class="input" type="password" name="repassword" placeholder="Re Password input" required>
                     <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
                     </span>
