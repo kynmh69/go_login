@@ -47,6 +47,9 @@ func open(count int) {
 	}
 
 	if err = Db.Ping(); err != nil {
+		if count < 0 {
+			return
+		}
 		time.Sleep(time.Second * 2)
 		count--
 		log.Printf("retry... count:%d\n", count)
