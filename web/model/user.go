@@ -10,5 +10,4 @@ type User struct {
 
 func SignUp(userId, password string) (*User, error)  {
 	user := User{}
-	
 }
