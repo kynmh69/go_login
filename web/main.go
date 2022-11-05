@@ -24,9 +24,6 @@ func main() {
 	r := controller.GetRouter()
 	port := os.Getenv("HTTP_PORT")
 	r.Run(":" + port)
-	// http.HandleFunc("/login", controller.LoginHandler)
-	// http.HandleFunc("/logout", controller.LogoutHandler)
-	// http.ListenAndServe(":8000", nil)
 
 	defer file.Close()
 }
