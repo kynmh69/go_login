@@ -18,10 +18,11 @@ type User struct {
 }
 
 func SignUp(userId, password string) (*User, error) {
+	db := ConnectDb()
 	logger := logging.GetLogger()
 
 	user := User{}
-	row := Db.QueryRow("select * from user where user_id = ?", userId)
+	row := db.QueryRow("select * from user where user_id = ?", userId)
 	row.Scan(&user.Id, &user.UserId, &user.Password, &user.CreatedAt, &user.UpdatedAt)
 
 	if user.UserId != "" {
@@ -41,16 +42,19 @@ func SignUp(userId, password string) (*User, error) {
 		Password: encryptPw,
 	}
 
-	result, err := Db.Exec("insert into user (id, user_id, password) values(?, ?, ?)", user.Id, user.UserId, user.Password)
+	result, err := db.Exec("insert into user (id, user_id, password) values(?, ?, ?)", user.Id, user.UserId, user.Password)
 	logger.Debug(result.LastInsertId())
+
+	defer db.Close()
 
 	return &user, err
 }
 
 func Login(userId, password string) (*User, error) {
 	logger := logging.GetLogger()
+	db := ConnectDb()
 	user := User{}
-	row := Db.QueryRow("select user_id, password from user where user_id = ?", userId)
+	row := db.QueryRow("select user_id, password from user where user_id = ?", userId)
 	err := row.Scan(&user.UserId, &user.Password)
 	if err != nil {
 		logger.Warn("User not found.")
@@ -63,6 +67,8 @@ func Login(userId, password string) (*User, error) {
 		logger.Warn("wrong passsword.")
 		return nil, err
 	}
+
+	defer db.Close()
 
 	return &user, nil
 }

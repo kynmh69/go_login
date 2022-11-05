@@ -3,7 +3,6 @@ package main
 import (
 	"go_login/controller"
 	"go_login/logging"
-	"go_login/model"
 	"go_login/utils"
 	"os"
 )
@@ -18,8 +17,6 @@ func main() {
 
 	logLevel := os.Getenv("APP_LOG_LEVEL")
 	logger.SetLogLevel(logLevel)
-
-	model.ConnectDb()
 
 	r := controller.GetRouter()
 	port := os.Getenv("HTTP_PORT")
