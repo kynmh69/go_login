@@ -7,3 +7,8 @@ type User struct {
 	CreatedAt string
 	UpdatedAt string
 }
+
+func SignUp(userId, password string) (*User, error)  {
+	user := User{}
+	
+}
