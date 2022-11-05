@@ -15,7 +15,6 @@ services:
       dockerfile: ./docker/web/Dockerfile
     ports:
       - 8000:8000
-    command: go run /var/golang/web/main.go
     restart: on-failure
     environment:
       - TZ=Asia/Tokyo
