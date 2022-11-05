@@ -46,3 +46,23 @@ func SignUp(userId, password string) (*User, error) {
 
 	return &user, err
 }
+
+func Login(userId, password string) (*User, error) {
+	logger := logging.GetLogger()
+	user := User{}
+	row := Db.QueryRow("select user_id, password from user where user_id = ?", userId)
+	err := row.Scan(&user.UserId, &user.Password)
+	if err != nil {
+		logger.Warn("User not found.")
+		errorMsg := errors.New("ユーザが存在しません")
+		return nil, errorMsg
+	}
+
+	err = utils.CompareHashAndPassword(user.Password, password)
+	if err != nil {
+		logger.Warn("wrong passsword.")
+		return nil, err
+	}
+
+	return &user, nil
+}
