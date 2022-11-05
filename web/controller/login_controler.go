@@ -20,7 +20,7 @@ func postSignUp(ctx *gin.Context) {
 
 	logger.Info("request to create user:", id)
 
-	user, err := model.SignUp(id, pw)
+	_, err := model.SignUp(id, pw)
 	if err != nil {
 		ctx.Redirect(http.StatusFound, "/signup")
 		return
@@ -33,12 +33,18 @@ func getLogin(ctx *gin.Context) {
 }
 
 func postLogin(ctx *gin.Context) {
+	logger := logging.GetLogger()
+
 	id := ctx.PostForm("user_id")
 	pw := ctx.PostForm("password")
 
 	user, err := model.Login(id, pw)
+
+	logger.Info("Login: ", id)
+
 	if err != nil {
-		ctx.Redirect(301, "/login")
+		logger.Warn("Login failure:", id)
+		ctx.Redirect(http.StatusFound, "/login")
 		return
 	}
 	ctx.HTML(http.StatusOK, "home.html", gin.H{"user": user})

@@ -41,8 +41,8 @@ func SignUp(userId, password string) (*User, error) {
 		UserId:   userId,
 		Password: encryptPw,
 	}
-
-	result, err := db.Exec("insert into user (id, user_id, password) values(?, ?, ?)", user.Id, user.UserId, user.Password)
+	stmt, _ := db.Prepare("insert into user (id, user_id, password) values(?, ?, ?)")
+	result, err := stmt.Exec(user.Id, user.UserId, user.Password)
 	logger.Debug(result.LastInsertId())
 
 	defer db.Close()
@@ -54,15 +54,18 @@ func Login(userId, password string) (*User, error) {
 	logger := logging.GetLogger()
 	db := ConnectDb()
 	user := User{}
+
 	row := db.QueryRow("select user_id, password from user where user_id = ?", userId)
+
 	err := row.Scan(&user.UserId, &user.Password)
 	if err != nil {
-		logger.Warn("User not found.")
+		logger.Warn("User not found.", err.Error())
 		errorMsg := errors.New("ユーザが存在しません")
 		return nil, errorMsg
 	}
 
 	err = utils.CompareHashAndPassword(user.Password, password)
+
 	if err != nil {
 		logger.Warn("wrong passsword.")
 		return nil, err
