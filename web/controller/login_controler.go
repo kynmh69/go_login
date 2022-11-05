@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"go_login/logging"
 	"go_login/model"
 	"net/http"
 
@@ -12,8 +13,13 @@ func getSignUp(ctx *gin.Context) {
 }
 
 func postSignUp(ctx *gin.Context) {
+	logger := logging.GetLogger()
+
 	id := ctx.PostForm("user_id")
 	pw := ctx.PostForm("password")
+
+	logger.Info("request to create user:", id)
+
 	user, err := model.SignUp(id, pw)
 	if err != nil {
 		ctx.Redirect(301, "/login")
