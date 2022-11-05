@@ -2,15 +2,19 @@ services:
   db:
     image: mysql:8.0.31
     volumes:
-      - ./mysql/init:/docker-entrypoint-initdb.d
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
       - db-store:/var/lib/mysql
       - ./mysql/log:/var/log/mysql
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     restart: on-failure
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - TZ=Asia/Tokyo
     ports:
       - 3306:3306
+    networks:
+      - goserve_network
+    tty: true
   web:
     build:
       context: .
@@ -24,5 +28,13 @@ services:
       - ./web:/var/golang/web
     depends_on:
       - db
+    networks:
+      - goserve_network
+    tty: true
 volumes:
   db-store:
+
+
+networks:
+  goserve_network:
+    external: true

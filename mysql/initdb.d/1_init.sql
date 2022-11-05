@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS `test_database` /*!40100 DEFAULT CHARACTER SET utf8 */;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root';
+CREATE USER 'go_user'@'%' IDENTIFIED BY 'password';

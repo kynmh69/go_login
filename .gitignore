@@ -16,3 +16,6 @@
 
 # log
 *.log
+
+#env file
+.env

@@ -27,7 +27,7 @@ func init() {
 }
 
 func ConnectDb() {
-	utils.LoadEnv("../.env")
+	utils.LoadEnv(".env")
 	count := 10
 	open(count)
 }
