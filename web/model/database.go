@@ -3,6 +3,7 @@ package model
 import (
 	"database/sql"
 	"fmt"
+	"go_login/utils"
 	"log"
 	"os"
 	"time"
@@ -26,6 +27,7 @@ func init() {
 }
 
 func ConnectDb() {
+	utils.LoadEnv("../.env")
 	count := 10
 	open(count)
 }
@@ -39,22 +41,25 @@ func open(count int) {
 
 	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", db_user, db_password, db_host, db_port, db_schema)
 
+	log.Println("connecting to", dataSourceName)
+
 	Db, err := sql.Open(DB_SOFT, dataSourceName)
-	log.Println("Connected DB.", dataSourceName)
 
 	if err != nil {
 		log.Fatalln("DB connect error.", err.Error())
 	}
 
 	if err = Db.Ping(); err != nil {
-		if count < 0 {
-			return
+		if count == 0 {
+			log.Fatalln("can't connect db.")
 		}
-		time.Sleep(time.Second * 2)
+		time.Sleep(time.Second * 5)
 		count--
 		log.Printf("retry... count:%d\n", count)
 		open(count)
 	}
+
+	log.Println("Connected DB.", dataSourceName)
 
 	Db.SetConnMaxLifetime(time.Minute * 5)
 	Db.SetMaxOpenConns(10)

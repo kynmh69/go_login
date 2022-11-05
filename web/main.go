@@ -13,7 +13,7 @@ func main() {
 	logger.LogLevel = logging.INFO
 	logger.Info("start serve.")
 
-	utils.LoadEnv()
+	utils.LoadEnv("")
 
 	logLevel := os.Getenv("APP_LOG_LEVEL")
 	logger.SetLogLevel(logLevel)

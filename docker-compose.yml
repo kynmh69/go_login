@@ -2,8 +2,9 @@ services:
   db:
     image: mysql:8.0.31
     volumes:
-      #   - ./mysql/initdb.d:/docker-entrypoint-initdb.d
-      - ./mysql:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - db-store:/var/lib/mysql
+      - ./mysql/log:/var/log/mysql
     restart: on-failure
     environment:
       - MYSQL_ROOT_PASSWORD=root
@@ -23,3 +24,5 @@ services:
       - ./web:/var/golang/web
     depends_on:
       - db
+volumes:
+  db-store:

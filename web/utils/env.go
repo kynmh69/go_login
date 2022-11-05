@@ -1,17 +1,23 @@
 package utils
 
 import (
-	"go_login/logging"
+	"log"
 
 	"github.com/joho/godotenv"
 )
 
-func LoadEnv() {
-	logger := logging.GetLogger()
-	envFilePath := ".env"
+func LoadEnv(filepath string) {
+	var envFilePath string
+
+	if filepath == "" {
+		envFilePath = ".env"
+	} else {
+		envFilePath = filepath
+	}
+
 	err := godotenv.Load(envFilePath)
 	if err != nil {
-		logger.Fatalln("env load error.", err.Error())
+		log.Fatalln("env load error.", err.Error())
 	}
-	logger.Debug("Load env.")
+	log.Println("Load env.")
 }
