@@ -2,7 +2,7 @@ services:
   db:
     image: mysql:8.0.31
     volumes:
-    #   - ./mysql/initdb.d:/docker-entrypoint-initdb.d
+      #   - ./mysql/initdb.d:/docker-entrypoint-initdb.d
       - ./mysql:/var/lib/mysql
     restart: on-failure
     environment:
@@ -21,3 +21,5 @@ services:
       - TZ=Asia/Tokyo
     volumes:
       - ./web:/var/golang/web
+    depends_on:
+      - db
