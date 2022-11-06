@@ -28,6 +28,7 @@ services:
       - ./web:/var/golang/web
     depends_on:
       - db
+      - redis
     networks:
       - goserve_network
     tty: true
@@ -39,9 +40,6 @@ services:
 
 volumes:
   db-store:
-    
-
-
 
 
 networks:

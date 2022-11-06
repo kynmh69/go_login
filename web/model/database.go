@@ -20,6 +20,11 @@ const (
 	DB_SOFT     = "mysql"
 )
 
+func init() {
+	log.Println("connect database.")
+	ConnectDb()
+}
+
 func ConnectDb() *sql.DB {
 	utils.LoadEnv(".env")
 	count := 10

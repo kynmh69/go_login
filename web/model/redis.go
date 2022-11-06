@@ -13,6 +13,7 @@ import (
 var conn *redis.Client
 
 func init() {
+	log.Println("create redis client.")
 	conn = redis.NewClient(
 		&redis.Options{
 			Addr:     "redis:6379",
@@ -20,6 +21,7 @@ func init() {
 			DB:       0,
 		},
 	)
+	log.Println(conn.Info().String())
 }
 
 func NewSession(ctx *gin.Context, cookieKey, redisValue string) {
@@ -52,7 +54,7 @@ func GetSession(ctx *gin.Context, cookieKey string) interface{} {
 
 }
 
-func DeleteSession(ctx *gin.Context, cookieKey string)  {
+func DeleteSession(ctx *gin.Context, cookieKey string) {
 	redisId, _ := ctx.Cookie(cookieKey)
 	conn.Del(redisId)
 	ctx.SetCookie(cookieKey, "", -1, "/", "localhost", false, false)

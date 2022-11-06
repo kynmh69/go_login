@@ -4,16 +4,27 @@ import (
 	"go_login/controller"
 	"go_login/logging"
 	"go_login/utils"
+	"log"
 	"os"
 )
 
-func main() {
-	file := logging.SetLogger()
-	logger := logging.GetLogger()
+var (
+	file   *os.File
+	logger *logging.Logger
+)
+
+func init() {
+	log.Println("init main.")
+	file = logging.SetLogger()
+	logger = logging.GetLogger()
 	logger.LogLevel = logging.INFO
-	logger.Info("start serve.")
 
 	utils.LoadEnv("")
+}
+
+func main() {
+
+	logger.Info("start serve.")
 
 	logLevel := os.Getenv("APP_LOG_LEVEL")
 	logger.SetLogLevel(logLevel)
