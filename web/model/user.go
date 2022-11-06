@@ -18,11 +18,10 @@ type User struct {
 }
 
 func SignUp(userId, password string) (*User, error) {
-	db := ConnectDb()
 	logger := logging.GetLogger()
 
 	user := User{}
-	row := db.QueryRow("select * from user where user_id = ?", userId)
+	row := Db.QueryRow("select * from user where user_id = ?", userId)
 	row.Scan(&user.Id, &user.UserId, &user.Password, &user.CreatedAt, &user.UpdatedAt)
 
 	if user.UserId != "" {
@@ -41,21 +40,18 @@ func SignUp(userId, password string) (*User, error) {
 		UserId:   userId,
 		Password: encryptPw,
 	}
-	stmt, _ := db.Prepare("insert into user (id, user_id, password) values(?, ?, ?)")
+	stmt, _ := Db.Prepare("insert into user (id, user_id, password) values(?, ?, ?)")
 	result, err := stmt.Exec(user.Id, user.UserId, user.Password)
 	logger.Debug(result.LastInsertId())
-
-	defer db.Close()
 
 	return &user, err
 }
 
 func Login(userId, password string) (*User, error) {
 	logger := logging.GetLogger()
-	db := ConnectDb()
 	user := User{}
 
-	row := db.QueryRow("select user_id, password from user where user_id = ?", userId)
+	row := Db.QueryRow("select user_id, password from user where user_id = ?", userId)
 
 	err := row.Scan(&user.UserId, &user.Password)
 	if err != nil {
@@ -71,7 +67,22 @@ func Login(userId, password string) (*User, error) {
 		return nil, err
 	}
 
-	defer db.Close()
+	return &user, nil
+}
 
+func GetOneUser(userId string) (*User, error) {
+	logger := logging.GetLogger()
+	user := User{}
+
+	logger.Info("get User.", userId)
+
+	row := Db.QueryRow("select user_id, password from user where user_id = ?", userId)
+
+	err := row.Scan(&user.UserId, &user.Password)
+
+	if err != nil {
+		logger.Error("not found user:", userId)
+		return nil, err
+	}
 	return &user, nil
 }

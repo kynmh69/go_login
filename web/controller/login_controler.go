@@ -4,6 +4,7 @@ import (
 	"go_login/logging"
 	"go_login/model"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,6 +30,8 @@ func postSignUp(ctx *gin.Context) {
 }
 
 func getLogin(ctx *gin.Context) {
+	logger := logging.GetLogger()
+	logger.Debug("call get Login")
 	ctx.HTML(http.StatusOK, "login.html", nil)
 }
 
@@ -47,5 +50,8 @@ func postLogin(ctx *gin.Context) {
 		ctx.Redirect(http.StatusFound, "/login")
 		return
 	}
+	cookieKey := os.Getenv("LOGIN_USER_ID_KEY")
+	model.NewSession(ctx, cookieKey, user.UserId)
+
 	ctx.HTML(http.StatusOK, "home.html", gin.H{"user": user})
 }
