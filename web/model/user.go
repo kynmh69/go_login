@@ -75,3 +75,21 @@ func Login(userId, password string) (*User, error) {
 
 	return &user, nil
 }
+
+func GetOneUser(userId string) (*User, error) {
+	logger := logging.GetLogger()
+	db := ConnectDb()
+	user := User{}
+
+	logger.Info("get User.", userId)
+
+	row := db.QueryRow("select user_id, password from user where user_id = ?", userId)
+
+	err := row.Scan(&user.UserId, &user.Password)
+
+	if err != nil {
+		logger.Error("not found user:", userId)
+		return nil, err
+	}
+	return &user, nil
+}
