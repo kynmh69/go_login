@@ -20,7 +20,10 @@ const (
 	DB_SOFT     = "mysql"
 )
 
-var Db *sql.DB
+var (
+	Db  *sql.DB
+	err error
+)
 
 func init() {
 	log.Println("connect database.")
@@ -44,7 +47,7 @@ func open(count int) {
 
 	log.Println("connecting to", dataSourceName)
 
-	Db, err := sql.Open(DB_SOFT, dataSourceName)
+	Db, err = sql.Open(DB_SOFT, dataSourceName)
 
 	if err != nil {
 		log.Fatalln("DB connect error.", err.Error())

@@ -1,7 +1,9 @@
 package controller
 
 import (
+	"go_login/logging"
 	"go_login/model"
+	"log"
 	"net/http"
 	"os"
 
@@ -30,24 +32,34 @@ func GetRouter() *gin.Engine {
 }
 
 func checkLogin() gin.HandlerFunc {
+	logger := logging.GetLogger()
+	logger.Debug("Check Login")
 	return func(c *gin.Context) {
 		cookieKey := os.Getenv("LOGIN_USER_ID_KEY")
+
 		id := model.GetSession(c, cookieKey)
+
+		log.Println("id: ", id)
 		if id == nil {
 			c.Redirect(http.StatusFound, "/login")
 			c.Abort()
 		} else {
 			c.Next()
 		}
+
 	}
 }
 
 func checkLogout() gin.HandlerFunc {
+	logger := logging.GetLogger()
+	logger.Debug("Check Logout")
 	return func(c *gin.Context) {
+		logger := logging.GetLogger()
 		cookieKey := os.Getenv("LOGIN_USER_ID_KEY")
 		id := model.GetSession(c, cookieKey)
+		logger.Debug("id:", id)
 		if id != nil {
-			c.Redirect(http.StatusFound, "/")
+			c.Redirect(http.StatusFound, "/home")
 			c.Abort()
 		} else {
 			c.Next()

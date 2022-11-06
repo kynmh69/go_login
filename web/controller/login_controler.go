@@ -30,6 +30,8 @@ func postSignUp(ctx *gin.Context) {
 }
 
 func getLogin(ctx *gin.Context) {
+	logger := logging.GetLogger()
+	logger.Debug("call get Login")
 	ctx.HTML(http.StatusOK, "login.html", nil)
 }
 

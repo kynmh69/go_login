@@ -22,7 +22,7 @@ func init() {
 			DB:       0,
 		},
 	)
-	log.Println(conn.Info().String())
+	// log.Println(conn.Info().String())
 }
 
 func NewSession(ctx *gin.Context, cookieKey, redisValue string) {
