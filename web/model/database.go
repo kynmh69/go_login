@@ -20,19 +20,20 @@ const (
 	DB_SOFT     = "mysql"
 )
 
+var Db *sql.DB
+
 func init() {
 	log.Println("connect database.")
 	ConnectDb()
 }
 
-func ConnectDb() *sql.DB {
+func ConnectDb() {
 	utils.LoadEnv(".env")
 	count := 10
-	db := open(count)
-	return db
+	open(count)
 }
 
-func open(count int) *sql.DB {
+func open(count int) {
 	db_user := os.Getenv(DB_USER)
 	db_password := os.Getenv(DB_PASSWORD)
 	db_schema := os.Getenv(DB_SCHEMA)
@@ -43,13 +44,13 @@ func open(count int) *sql.DB {
 
 	log.Println("connecting to", dataSourceName)
 
-	db, err := sql.Open(DB_SOFT, dataSourceName)
+	Db, err := sql.Open(DB_SOFT, dataSourceName)
 
 	if err != nil {
 		log.Fatalln("DB connect error.", err.Error())
 	}
 
-	if err = db.Ping(); err != nil {
+	if err = Db.Ping(); err != nil {
 		if count == 0 {
 			log.Fatalln("can't connect db.")
 		}
@@ -61,8 +62,7 @@ func open(count int) *sql.DB {
 
 	log.Println("Connected DB.", dataSourceName)
 
-	db.SetConnMaxLifetime(time.Minute * 5)
-	db.SetMaxOpenConns(10)
-	db.SetMaxIdleConns(10)
-	return db
+	Db.SetConnMaxLifetime(time.Hour * 1)
+	Db.SetMaxOpenConns(10)
+	Db.SetMaxIdleConns(10)
 }

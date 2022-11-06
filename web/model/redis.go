@@ -3,6 +3,7 @@ package model
 import (
 	"crypto/rand"
 	"encoding/base64"
+	"go_login/logging"
 	"io"
 	"log"
 
@@ -25,6 +26,9 @@ func init() {
 }
 
 func NewSession(ctx *gin.Context, cookieKey, redisValue string) {
+	logger := logging.GetLogger()
+
+	logger.Debug(conn.Info().String())
 	b := make([]byte, 64)
 	if _, err := io.ReadFull(rand.Reader, b); err != nil {
 		panic("ランダムな文字作成時にエラーが発生しました。")
