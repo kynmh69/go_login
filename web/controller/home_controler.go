@@ -7,6 +7,7 @@ import (
 )
 
 func GetHome(ctx *gin.Context) {
+	
 	ctx.HTML(
 		http.StatusOK,
 		"home.html",
