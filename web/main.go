@@ -6,6 +6,8 @@ import (
 	"go_login/utils"
 	"log"
 	"os"
+
+	"github.com/gin-gonic/gin"
 )
 
 var (
@@ -17,9 +19,11 @@ func init() {
 	log.Println("init main.")
 	file = logging.SetLogger()
 	logger = logging.GetLogger()
-	logger.LogLevel = logging.INFO
+	logger.LogLevel = logging.DEBUG
 
 	utils.LoadEnv("")
+
+	gin.SetMode(gin.ReleaseMode)
 }
 
 func main() {
