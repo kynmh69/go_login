@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <title>golang_template</title>
+</head>
+
+<body>
+    <!-- main container -->
+    <nav class="level">
+        <!-- left side -->
+        <div class="level-left">
+            <div class="level-item">
+                <p class="subtitle-5">
+                    <strong>Login Success!!</strong>
+                </p>
+            </div>
+        </div>
+        <!-- right side -->
+        <div class="level-right">
+            <p class="level-item">
+                <a href="">
+                    {{.user.UserId}}
+                </a>
+            </p>
+            <p class="level-item">
+                <a class="button is-warning" href="/logout">Logout</a>
+            </p>
+        </div>
+    </nav>
+</body>
+
+</html>
