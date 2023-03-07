@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/joho/godotenv v1.4.0
-	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97
+	golang.org/x/crypto v0.1.0
 )
 
 require (
